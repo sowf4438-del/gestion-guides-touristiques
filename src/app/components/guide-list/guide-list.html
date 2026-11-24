@@ -3,6 +3,17 @@
 
   <div class="filtres">
     <label>
+      Recherche :
+      <input
+        type="search"
+        class="recherche"
+        placeholder="Nom, prénom ou spécialité"
+        [ngModel]="recherche"
+        (ngModelChange)="onRechercheChange($event)"
+      />
+    </label>
+
+    <label>
       Région :
       <select
         [ngModel]="regionSelectionnee"
@@ -28,21 +39,27 @@
   </div>
 
   <div class="guides-grid" *ngIf="guidesFiltres$ | async as guides">
-    <p class="vide" *ngIf="guides.length === 0">
-      Aucun guide ne correspond à ces critères.
+    <p class="vide" *ngIf="guides.length === 0" role="status">
+      Aucun guide ne correspond à votre recherche ou à vos filtres.
     </p>
 
     <article class="guide-card" *ngFor="let guide of guides">
       <div class="guide-header">
         <h3>{{ guide.prenom }} {{ guide.nom }}</h3>
-        <span class="statut">{{ guide.statut }}</span>
+        <span
+          class="statut"
+          [class.disponible]="guide.statut === 'Disponible'"
+          [class.mission]="guide.statut === 'En mission'"
+          [class.indisponible]="guide.statut === 'Indisponible'"
+          >{{ guide.statut }}</span
+        >
       </div>
 
       <p><strong>Spécialité :</strong> {{ guide.specialite }}</p>
       <p><strong>Région :</strong> {{ guide.region }}</p>
       <p><strong>Téléphone :</strong> {{ guide.telephone }}</p>
       <p><strong>Email :</strong> {{ guide.email }}</p>
-      <p><strong>Note :</strong> {{ guide.note }} / 5</p>
+      <p><strong>Note :</strong> {{ guide.note | number: '1.1-1' }} / 5</p>
 
       <button type="button" class="btn-delete" (click)="supprimerGuide(guide.id)">
         Supprimer

@@ -111,3 +111,35 @@
   color: #64748b;
   font-style: italic;
 }
+
+/* --- Recherche et badges de statut --- */
+.filtres input[type='search'] {
+  min-width: 240px;
+  padding: 0.45rem 0.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background-color: #ffffff;
+}
+
+.filtres input:focus-visible,
+.filtres select:focus-visible,
+.btn-reset:focus-visible,
+.btn-delete:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 2px;
+}
+
+.statut.disponible {
+  background-color: #ecfdf5;
+  color: #047857;
+}
+
+.statut.mission {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.statut.indisponible {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}

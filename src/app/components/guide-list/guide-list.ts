@@ -14,6 +14,7 @@ import { GuideService } from '../../services/guide';
   styleUrl: './guide-list.css'
 })
 export class GuideListComponent implements OnInit {
+  recherche = '';
   regionSelectionnee = 'Toutes';
   statutSelectionne: 'Tous' | StatutGuide = 'Tous';
 
@@ -42,6 +43,7 @@ export class GuideListComponent implements OnInit {
     'Indisponible'
   ];
 
+  private rechercheSubject = new BehaviorSubject<string>('');
   private regionSubject = new BehaviorSubject<string>('Toutes');
   private statutSubject = new BehaviorSubject<'Tous' | StatutGuide>('Tous');
 
@@ -52,17 +54,35 @@ export class GuideListComponent implements OnInit {
   ngOnInit(): void {
     this.guidesFiltres$ = combineLatest([
       this.guideService.guides$,
+      this.rechercheSubject.asObservable(),
       this.regionSubject.asObservable(),
       this.statutSubject.asObservable()
     ]).pipe(
-      map(([guides, region, statut]) =>
-        guides.filter((guide) => {
+      map(([guides, recherche, region, statut]) => {
+        const q = this.normaliser(recherche);
+        return guides.filter((guide) => {
+          const texte = this.normaliser(`${guide.prenom} ${guide.nom} ${guide.specialite}`);
+          const matchRecherche = texte.includes(q);
           const matchRegion = region === 'Toutes' || guide.region === region;
           const matchStatut = statut === 'Tous' || guide.statut === statut;
-          return matchRegion && matchStatut;
-        })
-      )
+          return matchRecherche && matchRegion && matchStatut;
+        });
+      })
     );
+  }
+
+  // Minuscules et sans accents : "ecotourisme" trouve "Écotourisme"
+  private normaliser(texte: string): string {
+    return texte
+      .trim()
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
+  }
+
+  onRechercheChange(valeur: string): void {
+    this.recherche = valeur;
+    this.rechercheSubject.next(valeur);
   }
 
   onRegionChange(region: string): void {
@@ -76,6 +96,7 @@ export class GuideListComponent implements OnInit {
   }
 
   reinitialiserFiltres(): void {
+    this.onRechercheChange('');
     this.onRegionChange('Toutes');
     this.onStatutChange('Tous');
   }
