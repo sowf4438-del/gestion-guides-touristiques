@@ -1,3 +1,8 @@
-<main>
+<main class="conteneur-principal">
+  <app-guide-form
+    [guideEnEdition]="guideSelectionne"
+    (editionTerminee)="onEditionTerminee()"
+  ></app-guide-form>
+
   <app-guide-list></app-guide-list>
 </main>
