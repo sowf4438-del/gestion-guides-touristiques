@@ -1,0 +1,222 @@
+<section class="formulaire-card" aria-labelledby="titre-formulaire-guide">
+  <h2 id="titre-formulaire-guide">
+    {{ guideEnEdition ? 'Modifier un guide touristique' : 'Ajouter un guide touristique' }}
+  </h2>
+
+  @if (messageFeedback) {
+    <div
+      class="message-retour"
+      [class.message-succes]="typeFeedback === 'succes'"
+      [class.message-erreur]="typeFeedback === 'erreur'"
+      role="status"
+      aria-live="polite"
+    >
+      {{ messageFeedback }}
+    </div>
+  }
+
+  <form #guideForm="ngForm" (ngSubmit)="onSubmit(guideForm)" novalidate>
+    <div class="grille-champs">
+      <!-- Prénom -->
+      <div class="champ">
+        <label for="guide-prenom">Prénom <span aria-hidden="true">*</span></label>
+        <input
+          id="guide-prenom"
+          name="prenom"
+          type="text"
+          [(ngModel)]="modele.prenom"
+          #prenomCtrl="ngModel"
+          required
+          minlength="2"
+          placeholder="Ex. : Aminata"
+        />
+        @if ((prenomCtrl.invalid && (prenomCtrl.touched || soumis)) || false) {
+          <small class="erreur-champ" role="alert">
+            @if (prenomCtrl.errors?.['required']) {
+              Le prénom est obligatoire.
+            } @else if (prenomCtrl.errors?.['minlength']) {
+              Le prénom doit contenir au moins 2 caractères.
+            }
+          </small>
+        }
+      </div>
+
+      <!-- Nom -->
+      <div class="champ">
+        <label for="guide-nom">Nom <span aria-hidden="true">*</span></label>
+        <input
+          id="guide-nom"
+          name="nom"
+          type="text"
+          [(ngModel)]="modele.nom"
+          #nomCtrl="ngModel"
+          required
+          minlength="2"
+          placeholder="Ex. : Diop"
+        />
+        @if (nomCtrl.invalid && (nomCtrl.touched || soumis)) {
+          <small class="erreur-champ" role="alert">
+            @if (nomCtrl.errors?.['required']) {
+              Le nom est obligatoire.
+            } @else if (nomCtrl.errors?.['minlength']) {
+              Le nom doit contenir au moins 2 caractères.
+            }
+          </small>
+        }
+      </div>
+
+      <!-- Région (14 régions du Sénégal) -->
+      <div class="champ">
+        <label for="guide-region">Région <span aria-hidden="true">*</span></label>
+        <select
+          id="guide-region"
+          name="region"
+          [(ngModel)]="modele.region"
+          #regionCtrl="ngModel"
+          required
+        >
+          <option value="" disabled>-- Choisir une région --</option>
+          @for (region of regionsSenegal; track region) {
+            <option [value]="region">{{ region }}</option>
+          }
+        </select>
+        @if (regionCtrl.invalid && (regionCtrl.touched || soumis)) {
+          <small class="erreur-champ" role="alert">
+            Veuillez sélectionner une région.
+          </small>
+        }
+      </div>
+
+      <!-- Spécialité -->
+      <div class="champ">
+        <label for="guide-specialite">Spécialité <span aria-hidden="true">*</span></label>
+        <input
+          id="guide-specialite"
+          name="specialite"
+          type="text"
+          [(ngModel)]="modele.specialite"
+          #specialiteCtrl="ngModel"
+          required
+          minlength="3"
+          placeholder="Ex. : Écotourisme, Histoire et patrimoine"
+        />
+        @if (specialiteCtrl.invalid && (specialiteCtrl.touched || soumis)) {
+          <small class="erreur-champ" role="alert">
+            @if (specialiteCtrl.errors?.['required']) {
+              La spécialité est obligatoire.
+            } @else if (specialiteCtrl.errors?.['minlength']) {
+              La spécialité doit contenir au moins 3 caractères.
+            }
+          </small>
+        }
+      </div>
+
+      <!-- Téléphone -->
+      <div class="champ">
+        <label for="guide-telephone">Téléphone <span aria-hidden="true">*</span></label>
+        <input
+          id="guide-telephone"
+          name="telephone"
+          type="tel"
+          [(ngModel)]="modele.telephone"
+          #telephoneCtrl="ngModel"
+          required
+          minlength="8"
+          pattern="^[+0-9\s()-]{8,20}$"
+          placeholder="Ex. : +221 77 123 45 67"
+        />
+        @if (telephoneCtrl.invalid && (telephoneCtrl.touched || soumis)) {
+          <small class="erreur-champ" role="alert">
+            @if (telephoneCtrl.errors?.['required']) {
+              Le numéro de téléphone est obligatoire.
+            } @else {
+              Saisissez un numéro de téléphone valide (au moins 8 chiffres).
+            }
+          </small>
+        }
+      </div>
+
+      <!-- Email -->
+      <div class="champ">
+        <label for="guide-email">Adresse e-mail <span aria-hidden="true">*</span></label>
+        <input
+          id="guide-email"
+          name="email"
+          type="email"
+          [(ngModel)]="modele.email"
+          #emailCtrl="ngModel"
+          required
+          email
+          placeholder="Ex. : guide@tourisme-sn.org"
+        />
+        @if (emailCtrl.invalid && (emailCtrl.touched || soumis)) {
+          <small class="erreur-champ" role="alert">
+            @if (emailCtrl.errors?.['required']) {
+              L'adresse e-mail est obligatoire.
+            } @else {
+              Saisissez une adresse e-mail valide.
+            }
+          </small>
+        }
+      </div>
+
+      <!-- Note sur 5 -->
+      <div class="champ">
+        <label for="guide-note">Note moyenne (sur 5) <span aria-hidden="true">*</span></label>
+        <input
+          id="guide-note"
+          name="note"
+          type="number"
+          step="0.1"
+          min="0"
+          max="5"
+          [(ngModel)]="modele.note"
+          #noteCtrl="ngModel"
+          required
+        />
+        @if (noteCtrl.invalid && (noteCtrl.touched || soumis)) {
+          <small class="erreur-champ" role="alert">
+            Indiquez une note comprise entre 0 et 5.
+          </small>
+        }
+      </div>
+
+      <!-- Statut -->
+      <div class="champ">
+        <label for="guide-statut">Statut <span aria-hidden="true">*</span></label>
+        <select
+          id="guide-statut"
+          name="statut"
+          [(ngModel)]="modele.statut"
+          #statutCtrl="ngModel"
+          required
+        >
+          @for (statut of statutsDisponibles; track statut) {
+            <option [value]="statut">{{ statut }}</option>
+          }
+        </select>
+        @if (statutCtrl.invalid && (statutCtrl.touched || soumis)) {
+          <small class="erreur-champ" role="alert">
+            Le statut est obligatoire.
+          </small>
+        }
+      </div>
+    </div>
+
+    <div class="actions-formulaire">
+      <button type="submit" class="btn-principal">
+        {{ guideEnEdition ? 'Enregistrer les modifications' : 'Ajouter le guide' }}
+      </button>
+
+      @if (guideEnEdition) {
+        <button type="button" class="btn-secondaire" (click)="annulerEdition(guideForm)">
+          Annuler
+        </button>
+      } @else {
+        <button type="button" class="btn-secondaire" (click)="reinitialiser(guideForm)">
+          Réinitialiser
+        </button>
+      }
+    </div>
+  </form>
+</section>
