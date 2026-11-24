@@ -1,7 +1,37 @@
 <section class="guides-container">
   <h2>Guides touristiques au Sénégal</h2>
 
-  <div class="guides-grid" *ngIf="guides$ | async as guides">
+  <div class="filtres">
+    <label>
+      Région :
+      <select
+        [ngModel]="regionSelectionnee"
+        (ngModelChange)="onRegionChange($event)"
+      >
+        <option *ngFor="let r of regions" [value]="r">{{ r }}</option>
+      </select>
+    </label>
+
+    <label>
+      Statut :
+      <select
+        [ngModel]="statutSelectionne"
+        (ngModelChange)="onStatutChange($event)"
+      >
+        <option *ngFor="let s of statuts" [value]="s">{{ s }}</option>
+      </select>
+    </label>
+
+    <button type="button" class="btn-reset" (click)="reinitialiserFiltres()">
+      Réinitialiser
+    </button>
+  </div>
+
+  <div class="guides-grid" *ngIf="guidesFiltres$ | async as guides">
+    <p class="vide" *ngIf="guides.length === 0">
+      Aucun guide ne correspond à ces critères.
+    </p>
+
     <article class="guide-card" *ngFor="let guide of guides">
       <div class="guide-header">
         <h3>{{ guide.prenom }} {{ guide.nom }}</h3>
@@ -14,7 +44,7 @@
       <p><strong>Email :</strong> {{ guide.email }}</p>
       <p><strong>Note :</strong> {{ guide.note }} / 5</p>
 
-      <button type="button" (click)="supprimerGuide(guide.id)">
+      <button type="button" class="btn-delete" (click)="supprimerGuide(guide.id)">
         Supprimer
       </button>
     </article>
