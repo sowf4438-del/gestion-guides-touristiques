@@ -4,5 +4,7 @@
     (editionTerminee)="onEditionTerminee()"
   ></app-guide-form>
 
-  <app-guide-list></app-guide-list>
+  <app-guide-list
+    (modifierGuide)="selectionnerPourEdition($event)"
+  ></app-guide-list>
 </main>

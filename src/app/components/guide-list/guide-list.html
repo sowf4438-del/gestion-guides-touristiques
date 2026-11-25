@@ -61,9 +61,14 @@
       <p><strong>Email :</strong> {{ guide.email }}</p>
       <p><strong>Note :</strong> {{ guide.note | number: '1.1-1' }} / 5</p>
 
-      <button type="button" class="btn-delete" (click)="supprimerGuide(guide.id)">
-        Supprimer
-      </button>
+      <div class="guide-actions">
+        <button type="button" class="btn-edit" (click)="editerGuide(guide)">
+          Modifier
+        </button>
+        <button type="button" class="btn-delete" (click)="supprimerGuide(guide.id)">
+          Supprimer
+        </button>
+      </div>
     </article>
   </div>
 </section>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
@@ -14,6 +14,8 @@ import { GuideService } from '../../services/guide';
   styleUrl: './guide-list.css'
 })
 export class GuideListComponent implements OnInit {
+  @Output() modifierGuide = new EventEmitter<GuideTouristique>();
+
   recherche = '';
   regionSelectionnee = 'Toutes';
   statutSelectionne: 'Tous' | StatutGuide = 'Tous';
@@ -99,6 +101,10 @@ export class GuideListComponent implements OnInit {
     this.onRechercheChange('');
     this.onRegionChange('Toutes');
     this.onStatutChange('Tous');
+  }
+
+  editerGuide(guide: GuideTouristique): void {
+    this.modifierGuide.emit(guide);
   }
 
   supprimerGuide(id: number): void {

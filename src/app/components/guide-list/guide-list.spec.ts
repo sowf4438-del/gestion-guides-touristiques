@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { GuideList } from './guide-list';
+import { GuideListComponent } from './guide-list';
 
-describe('GuideList', () => {
-  let component: GuideList;
-  let fixture: ComponentFixture<GuideList>;
+describe('GuideListComponent', () => {
+  let component: GuideListComponent;
+  let fixture: ComponentFixture<GuideListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GuideList],
+      imports: [GuideListComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(GuideList);
+    fixture = TestBed.createComponent(GuideListComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

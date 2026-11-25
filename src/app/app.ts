@@ -13,6 +13,10 @@ import { GuideTouristique } from './models/guide-touristique';
 export class App {
   guideSelectionne: GuideTouristique | null = null;
 
+  selectionnerPourEdition(guide: GuideTouristique): void {
+    this.guideSelectionne = { ...guide };
+  }
+
   onEditionTerminee(): void {
     this.guideSelectionne = null;
   }
