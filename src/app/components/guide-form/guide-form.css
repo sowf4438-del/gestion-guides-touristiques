@@ -1,115 +1,189 @@
-.formulaire-card {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+:host {
+  --vert: #0f766e;
+  --titre: #134e4a;
+  --bord: #ece5d8;
+  display: block;
+  font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+  color: #334155;
+}
+
+.formulaire {
+  padding: 24px;
+  background: #fff;
+  border: 1px solid var(--bord);
+  border-top: 5px solid var(--vert);
+  border-radius: 20px;
+  box-shadow: 0 4px 16px rgba(120, 90, 40, 0.1);
+}
+
+.formulaire.mode-edition {
+  border-top-color: #f59e0b;
+  background: #fffdf7;
+}
+
+/* ---------- En-tête ---------- */
+.entete-form {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.pastille {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #0f766e, #0e7490);
+  border-radius: 14px;
+}
+
+.mode-edition .pastille {
+  background: linear-gradient(135deg, #d97706, #f59e0b);
+}
+
+h2 {
+  margin: 0;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.3rem, 2.5vw, 1.6rem);
+  color: var(--titre);
+}
+
+.aide {
+  margin: 2px 0 0;
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.obligatoire {
+  color: #dc2626;
+}
+
+/* ---------- Messages ---------- */
+.message {
+  padding: 12px 16px;
+  margin-bottom: 18px;
+  font-weight: 500;
   border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
-  margin-bottom: 1.5rem;
 }
 
-.formulaire-card h2 {
-  margin-top: 0;
-  margin-bottom: 1rem;
-  font-size: 1.25rem;
-  color: #0f172a;
+.message-succes {
+  color: #166534;
+  background: #dcfce7;
+  border: 1px solid #86efac;
 }
 
+.message-erreur {
+  color: #991b1b;
+  background: #fee2e2;
+  border: 1px solid #fca5a5;
+}
+
+/* ---------- Champs ---------- */
 .grille-champs {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 16px 18px;
 }
 
 .champ {
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
+  gap: 5px;
 }
 
 .champ label {
+  font-size: 0.85rem;
   font-weight: 600;
-  font-size: 0.9rem;
-  color: #1e293b;
+  color: var(--titre);
 }
 
 .champ input,
 .champ select {
-  padding: 0.55rem 0.75rem;
-  border: 1px solid #cbd5e1;
-  border-radius: 8px;
+  width: 100%;
+  padding: 11px 12px;
   font-size: 0.95rem;
-  color: #0f172a;
-  background-color: #fff;
+  background: #fdfbf7;
+  border: 1px solid #d9d0bf;
+  border-radius: 10px;
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
 
 .champ input:focus,
 .champ select:focus {
-  outline: 2px solid #0f766e;
-  outline-offset: 1px;
-  border-color: #0f766e;
+  outline: none;
+  border-color: var(--vert);
+  box-shadow: 0 0 0 3px #0f766e26;
 }
 
-.champ input.ng-invalid.ng-touched,
-.champ select.ng-invalid.ng-touched {
+.champ input[aria-invalid='true'],
+.champ select[aria-invalid='true'] {
+  background: #fff7f7;
   border-color: #dc2626;
 }
 
-.erreur-champ {
-  color: #dc2626;
-  font-size: 0.82rem;
-}
-
-.message-retour {
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-  font-size: 0.92rem;
+.erreur {
+  margin: 0;
+  font-size: 0.8rem;
   font-weight: 500;
+  color: #b91c1c;
 }
 
-.message-succes {
-  background-color: #ecfdf5;
-  color: #065f46;
-  border: 1px solid #a7f3d0;
-}
-
-.message-erreur {
-  background-color: #fef2f2;
-  color: #991b1b;
-  border: 1px solid #fecaca;
-}
-
-.actions-formulaire {
+/* ---------- Boutons ---------- */
+.actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-top: 1.25rem;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.btn {
+  padding: 11px 22px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: filter 0.15s, background 0.15s;
 }
 
 .btn-principal {
-  padding: 0.6rem 1.15rem;
-  border: none;
-  border-radius: 8px;
-  background-color: #0f766e;
-  color: #ffffff;
-  font-weight: 600;
-  cursor: pointer;
+  color: #fff;
+  background: linear-gradient(135deg, #0f766e, #0e7490);
+}
+
+.mode-edition .btn-principal {
+  background: linear-gradient(135deg, #d97706, #f59e0b);
 }
 
 .btn-principal:hover {
-  background-color: #115e59;
+  filter: brightness(1.1);
 }
 
 .btn-secondaire {
-  padding: 0.6rem 1.15rem;
-  border: 1px solid #cbd5e1;
-  border-radius: 8px;
-  background-color: #f8fafc;
-  color: #334155;
-  font-weight: 500;
-  cursor: pointer;
+  color: #475569;
+  background: #f8fafc;
+  border-color: #cbd5e1;
 }
 
 .btn-secondaire:hover {
-  background-color: #e2e8f0;
+  background: #f1f5f9;
+}
+
+/* ---------- Accessibilité ---------- */
+.btn:focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .champ input,
+  .champ select,
+  .btn {
+    transition: none;
+  }
 }

@@ -30,7 +30,7 @@
           minlength="2"
           placeholder="Ex. : Aminata"
         />
-        @if ((prenomCtrl.invalid && (prenomCtrl.touched || soumis)) || false) {
+        @if (prenomCtrl.invalid && (prenomCtrl.touched || soumis)) {
           <small class="erreur-champ" role="alert">
             @if (prenomCtrl.errors?.['required']) {
               Le prénom est obligatoire.

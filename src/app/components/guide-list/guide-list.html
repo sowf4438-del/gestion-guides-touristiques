@@ -1,74 +1,149 @@
-<section class="guides-container">
-  <h2>Guides touristiques au Sénégal</h2>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></symbol>
+  <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m16.2 7.8-2.1 6.3-6.3 2.1 2.1-6.3z"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></symbol>
+  <symbol id="i-landmark" viewBox="0 0 24 24"><path d="M3 22h18M6 18v-7M10 18v-7M14 18v-7M18 18v-7M12 2l8 5H4z"/></symbol>
+  <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8 0 5.5-4.8 10-10 10z"/><path d="M2 21c0-3 1.9-5.4 5.1-6 2.4-.5 4.9-2 5.9-3"/></symbol>
+</svg>
 
-  <div class="filtres">
-    <label>
-      Recherche :
+<section class="liste" aria-labelledby="titre-liste">
+  <h2 id="titre-liste">Guides touristiques au Sénégal</h2>
+  <p class="sous-titre">Trouvez le bon guide selon la région, la spécialité et la disponibilité.</p>
+
+  <div class="cartes-orientation">
+    @for (carte of cartesOrientation; track carte.id) {
+      <button
+        type="button"
+        class="carte-orientation"
+        [attr.data-type]="carte.id"
+        [class.active]="carte.active"
+        [attr.aria-pressed]="carte.active"
+        (click)="carte.action()"
+      >
+        <span class="icone-ronde" aria-hidden="true">
+          @switch (carte.id) {
+            @case ('dispos') { <svg class="ico"><use href="#i-check"/></svg> }
+            @case ('top-notes') { <svg class="ico ico-plein"><use href="#i-star"/></svg> }
+            @case ('dakar') { <svg class="ico"><use href="#i-landmark"/></svg> }
+            @case ('ziguinchor') { <svg class="ico"><use href="#i-leaf"/></svg> }
+          }
+        </span>
+        <span class="carte-texte">
+          <strong>{{ carte.titre }}</strong>
+          <small>{{ carte.description }}</small>
+        </span>
+        <span class="compteur">{{ carte.compteur$ | async }}</span>
+      </button>
+    }
+  </div>
+
+  <div class="barre-filtres" role="search">
+    <div class="champ champ-large">
+      <label for="recherche">Recherche</label>
       <input
+        id="recherche"
         type="search"
-        class="recherche"
         placeholder="Nom, prénom ou spécialité"
         [ngModel]="recherche"
         (ngModelChange)="onRechercheChange($event)"
       />
-    </label>
+    </div>
 
-    <label>
-      Région :
-      <select
-        [ngModel]="regionSelectionnee"
-        (ngModelChange)="onRegionChange($event)"
-      >
-        <option *ngFor="let r of regions" [value]="r">{{ r }}</option>
+    <div class="champ">
+      <label for="filtre-region">Région</label>
+      <select id="filtre-region" [ngModel]="regionSelectionnee" (ngModelChange)="onRegionChange($event)">
+        @for (r of regions; track r) {
+          <option [value]="r">{{ r }}</option>
+        }
       </select>
-    </label>
+    </div>
 
-    <label>
-      Statut :
-      <select
-        [ngModel]="statutSelectionne"
-        (ngModelChange)="onStatutChange($event)"
-      >
-        <option *ngFor="let s of statuts" [value]="s">{{ s }}</option>
+    <div class="champ">
+      <label for="filtre-statut">Statut</label>
+      <select id="filtre-statut" [ngModel]="statutSelectionne" (ngModelChange)="onStatutChange($event)">
+        @for (s of statuts; track s) {
+          <option [value]="s">{{ s }}</option>
+        }
       </select>
-    </label>
+    </div>
 
-    <button type="button" class="btn-reset" (click)="reinitialiserFiltres()">
+    <button type="button" class="btn btn-principal" (click)="reinitialiserFiltres()">
       Réinitialiser
     </button>
   </div>
 
-  <div class="guides-grid" *ngIf="guidesFiltres$ | async as guides">
-    <p class="vide" *ngIf="guides.length === 0" role="status">
-      Aucun guide ne correspond à votre recherche ou à vos filtres.
-    </p>
+  @if (guidesFiltres$ | async; as guides) {
+    <p class="compte-resultats" aria-live="polite">{{ guides.length }} guide(s) affiché(s)</p>
 
-    <article class="guide-card" *ngFor="let guide of guides">
-      <div class="guide-header">
-        <h3>{{ guide.prenom }} {{ guide.nom }}</h3>
-        <span
-          class="statut"
-          [class.disponible]="guide.statut === 'Disponible'"
-          [class.mission]="guide.statut === 'En mission'"
-          [class.indisponible]="guide.statut === 'Indisponible'"
-          >{{ guide.statut }}</span
-        >
+    @if (guides.length === 0) {
+      <div class="etat-vide" role="status">
+        @if ((totalGuides$ | async) === 0) {
+          <p><strong>Aucun guide enregistré pour le moment.</strong></p>
+          <p>Ajoutez un guide avec le formulaire ou rétablissez les données de démonstration.</p>
+        } @else {
+          <p><strong>Aucun guide ne correspond à votre recherche.</strong></p>
+          <p>Modifiez les mots-clés ou les filtres.</p>
+          <button type="button" class="btn btn-principal" (click)="reinitialiserFiltres()">
+            Réinitialiser les filtres
+          </button>
+        }
       </div>
+    } @else {
+      <div class="grille">
+        @for (guide of guides; track guide.id) {
+          <article class="carte-guide" [attr.data-region]="guide.region" [attr.data-statut]="guide.statut">
+            <header class="entete">
+              <span class="embleme" aria-hidden="true"><svg class="ico"><use href="#i-compass"/></svg></span>
+              <div class="entete-texte">
+                <span class="sigle">GUIDES / SN</span>
+                <span class="organisme">Répertoire des guides touristiques du Sénégal</span>
+              </div>
+              <span class="badge" [attr.data-statut]="guide.statut">{{ guide.statut }}</span>
+            </header>
 
-      <p><strong>Spécialité :</strong> {{ guide.specialite }}</p>
-      <p><strong>Région :</strong> {{ guide.region }}</p>
-      <p><strong>Téléphone :</strong> {{ guide.telephone }}</p>
-      <p><strong>Email :</strong> {{ guide.email }}</p>
-      <p><strong>Note :</strong> {{ guide.note | number: '1.1-1' }} / 5</p>
+            <h3 class="bandeau-nom">{{ guide.prenom }} {{ guide.nom }}</h3>
 
-      <div class="guide-actions">
-        <button type="button" class="btn-edit" (click)="editerGuide(guide)">
-          Modifier
-        </button>
-        <button type="button" class="btn-delete" (click)="supprimerGuide(guide.id)">
-          Supprimer
-        </button>
+            <div class="infos">
+              <p class="titre-carte">CARTE GUIDE</p>
+              <p><strong>Spécialité :</strong> {{ guide.specialite }}</p>
+              <p><strong>Région :</strong> {{ guide.region }}</p>
+              <p><strong>Téléphone :</strong> {{ guide.telephone }}</p>
+              <p><strong>E-mail :</strong> <a [href]="'mailto:' + guide.email">{{ guide.email }}</a></p>
+            </div>
+
+            <div class="photo">
+              <span class="portrait" aria-hidden="true">{{ guide.prenom.charAt(0) }}{{ guide.nom.charAt(0) }}</span>
+              <span class="note">
+                <svg class="ico ico-plein" aria-hidden="true"><use href="#i-star"/></svg>
+                <span class="sr-only">Note : </span>{{ guide.note | number: '1.1-1' }} / 5
+              </span>
+              <span class="numero">N° {{ guide.id | number: '3.0-0' }}</span>
+            </div>
+
+            <div class="actions">
+              <button
+                type="button"
+                class="btn btn-modifier"
+                [attr.aria-label]="'Modifier ' + guide.prenom + ' ' + guide.nom"
+                (click)="editerGuide(guide)"
+              >
+                Modifier
+              </button>
+              <button
+                type="button"
+                class="btn btn-supprimer"
+                [attr.aria-label]="'Supprimer ' + guide.prenom + ' ' + guide.nom"
+                (click)="supprimerGuide(guide)"
+              >
+                Supprimer
+              </button>
+            </div>
+          </article>
+        }
       </div>
-    </article>
-  </div>
+    }
+  }
 </section>
