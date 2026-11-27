@@ -12,7 +12,7 @@ export class GuideService {
     { id: 1, nom: 'DIOP', prenom: 'Awa', specialite: 'Écotourisme et mangroves',
       region: 'Ziguinchor', telephone: '+221 77 000 00 01',
       email: 'awa.diop@example.org', note: 4.8, statut: 'Disponible' },
-    { id: 2, nom: 'BA', prenom: 'Mamadou', specialite: 'Histoire et patrimoine',
+    { id: 2, nom: 'NDIAYE', prenom: 'Mamadou', specialite: 'Histoire et patrimoine',
       region: 'Saint-Louis', telephone: '+221 77 000 00 02',
       email: 'mamadou.ba@example.org', note: 4.5, statut: 'En mission' },
     { id: 3, nom: 'FALL', prenom: 'Ndeye', specialite: 'Culture urbaine et musées',
