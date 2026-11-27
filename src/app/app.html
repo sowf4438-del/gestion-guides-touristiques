@@ -1,52 +1,78 @@
-
 @if (messageNotification) {
-    <div class="toast-notification" role="status" aria-live="polite">
-      {{ messageNotification }}
+  <div class="toast-notification" role="status" aria-live="polite">
+    {{ messageNotification }}
+  </div>
+}
+
+<div class="app-layout">
+  <aside class="sidebar" aria-label="Navigation principale">
+    <div class="sidebar-marque">
+      <span class="sidebar-badge">Sénégal</span>
+      <strong class="sidebar-titre">Guides SN</strong>
+      <small class="sidebar-sous-titre">Administration des guides</small>
     </div>
-  }
-  <div class="app-shell">
-  @if (stats$ | async; as stats) {
-    <header class="app-header">
-     <div class="titre-bloc">
-  <h1 class="titre-script">
-    Gestion des Guides Touristiques
-    <span class="pays">au Sénégal</span>
-  </h1>
-  <p class="sous-titre-page">Suivi des disponibilités, spécialités et régions</p>
-</div>
-      <button type="button" (click)="reinitialiserDemo()" class="btn-reset-demo">
+
+    <nav class="sidebar-nav">
+      <a href="#section-stats" class="sidebar-lien">Statistiques</a>
+      <a href="#section-formulaire" class="sidebar-lien">Formulaire guide</a>
+      <a href="#section-liste" class="sidebar-lien">Liste des guides</a>
+    </nav>
+
+    <div class="sidebar-actions">
+      <button type="button" (click)="reinitialiserDemo()" class="btn-reset-demo sidebar-btn">
         Réinitialiser démo
       </button>
-    </header>
+    </div>
+  </aside>
 
-    <section class="stats-grid" aria-label="Statistiques des guides">
-      <div class="stat-card">
-        <span class="stat-label">Total guides</span>
-        <strong class="stat-value">{{ stats.total }}</strong>
-      </div>
-      <div class="stat-card stat-disponible">
-        <span class="stat-label">Disponibles</span>
-        <strong class="stat-value">{{ stats.disponibles }}</strong>
-      </div>
-      <div class="stat-card stat-mission">
-        <span class="stat-label">En mission</span>
-        <strong class="stat-value">{{ stats.enMission }}</strong>
-      </div>
-      <div class="stat-card stat-indisponible">
-        <span class="stat-label">Indisponibles</span>
-        <strong class="stat-value">{{ stats.indisponibles }}</strong>
-      </div>
-    </section>
-  }
+  <div class="app-shell">
+    @if (stats$ | async; as stats) {
+      <header class="app-header">
+        <div class="titre-bloc">
+          <h1 class="titre-script">
+            Gestion des Guides Touristiques
+            <span class="pays">au Sénégal</span>
+          </h1>
+          <p class="sous-titre-page">Suivi des disponibilités, spécialités et régions</p>
+        </div>
+        <button type="button" (click)="reinitialiserDemo()" class="btn-reset-demo header-reset">
+          Réinitialiser démo
+        </button>
+      </header>
 
-  <main class="conteneur-principal">
-    <app-guide-form
-      [guideEnEdition]="guideSelectionne"
-      (editionTerminee)="onEditionTerminee()"
-    ></app-guide-form>
+      <section id="section-stats" class="stats-grid" aria-label="Statistiques des guides">
+        <div class="stat-card">
+          <span class="stat-label">Total guides</span>
+          <strong class="stat-value">{{ stats.total }}</strong>
+        </div>
+        <div class="stat-card stat-disponible">
+          <span class="stat-label">Disponibles</span>
+          <strong class="stat-value">{{ stats.disponibles }}</strong>
+        </div>
+        <div class="stat-card stat-mission">
+          <span class="stat-label">En mission</span>
+          <strong class="stat-value">{{ stats.enMission }}</strong>
+        </div>
+        <div class="stat-card stat-indisponible">
+          <span class="stat-label">Indisponibles</span>
+          <strong class="stat-value">{{ stats.indisponibles }}</strong>
+        </div>
+      </section>
+    }
 
-    <app-guide-list
-      (modifierGuide)="selectionnerPourEdition($event)"
-    ></app-guide-list>
-  </main>
+    <main class="conteneur-principal">
+      <section id="section-formulaire" aria-label="Formulaire d'ajout ou modification">
+        <app-guide-form
+          [guideEnEdition]="guideSelectionne"
+          (editionTerminee)="onEditionTerminee()"
+        ></app-guide-form>
+      </section>
+
+      <section id="section-liste" aria-label="Liste des guides">
+        <app-guide-list
+          (modifierGuide)="selectionnerPourEdition($event)"
+        ></app-guide-list>
+      </section>
+    </main>
+  </div>
 </div>

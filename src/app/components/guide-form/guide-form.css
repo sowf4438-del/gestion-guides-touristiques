@@ -5,17 +5,20 @@
   display: block;
   font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
   color: #334155;
+  margin-bottom: 28px;
 }
 
+.formulaire-card,
 .formulaire {
   padding: 24px;
-  background: #fff;
+  background: #ffffff;
   border: 1px solid var(--bord);
   border-top: 5px solid var(--vert);
   border-radius: 20px;
-  box-shadow: 0 4px 16px rgba(120, 90, 40, 0.1);
+  box-shadow: 0 4px 16px rgba(120, 90, 40, 0.08);
 }
 
+.formulaire-card.mode-edition,
 .formulaire.mode-edition {
   border-top-color: #f59e0b;
   background: #fffdf7;
@@ -37,7 +40,7 @@
   flex-shrink: 0;
   font-size: 1.6rem;
   font-weight: 700;
-  color: #fff;
+  color: #ffffff;
   background: linear-gradient(135deg, #0f766e, #0e7490);
   border-radius: 14px;
 }
@@ -46,11 +49,18 @@
   background: linear-gradient(135deg, #d97706, #f59e0b);
 }
 
-h2 {
-  margin: 0;
+h2,
+.formulaire-card h2 {
+  margin: 0 0 18px;
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(1.3rem, 2.5vw, 1.6rem);
+  font-size: clamp(1.35rem, 2.5vw, 1.7rem);
+  font-weight: 700;
+  letter-spacing: 0.01em;
   color: var(--titre);
+}
+
+.entete-form h2 {
+  margin: 0;
 }
 
 .aide {
@@ -64,9 +74,11 @@ h2 {
 }
 
 /* ---------- Messages ---------- */
+.message-retour,
 .message {
   padding: 12px 16px;
   margin-bottom: 18px;
+  font-size: 0.9rem;
   font-weight: 500;
   border-radius: 12px;
 }
@@ -86,36 +98,47 @@ h2 {
 /* ---------- Champs ---------- */
 .grille-champs {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(225px, 1fr));
   gap: 16px 18px;
 }
 
 .champ {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 6px;
 }
 
 .champ label {
   font-size: 0.85rem;
   font-weight: 600;
+  letter-spacing: 0.01em;
   color: var(--titre);
 }
 
 .champ input,
 .champ select {
   width: 100%;
-  padding: 11px 12px;
-  font-size: 0.95rem;
+  box-sizing: border-box;
+  padding: 11px 13px;
+  font-family: inherit;
+  font-size: 0.92rem;
+  font-weight: 400;
+  color: #0f172a;
   background: #fdfbf7;
   border: 1px solid #d9d0bf;
   border-radius: 10px;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.champ input::placeholder {
+  color: #94a3b8;
+  font-size: 0.85rem;
 }
 
 .champ input:focus,
 .champ select:focus {
   outline: none;
+  background: #ffffff;
   border-color: var(--vert);
   box-shadow: 0 0 0 3px #0f766e26;
 }
@@ -126,6 +149,7 @@ h2 {
   border-color: #dc2626;
 }
 
+.erreur-champ,
 .erreur {
   margin: 0;
   font-size: 0.8rem;
@@ -134,25 +158,32 @@ h2 {
 }
 
 /* ---------- Boutons ---------- */
+.actions-formulaire,
 .actions {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
   margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px solid #f1f5f9;
 }
 
-.btn {
-  padding: 11px 22px;
-  font-size: 0.95rem;
+.btn,
+.btn-principal,
+.btn-secondaire {
+  padding: 11px 20px;
+  font-family: inherit;
+  font-size: 0.92rem;
   font-weight: 600;
+  letter-spacing: 0.01em;
   border: 1px solid transparent;
   border-radius: 10px;
   cursor: pointer;
-  transition: filter 0.15s, background 0.15s;
+  transition: filter 0.15s ease, background 0.15s ease, transform 0.15s ease;
 }
 
 .btn-principal {
-  color: #fff;
+  color: #ffffff;
   background: linear-gradient(135deg, #0f766e, #0e7490);
 }
 
@@ -161,7 +192,8 @@ h2 {
 }
 
 .btn-principal:hover {
-  filter: brightness(1.1);
+  filter: brightness(1.08);
+  transform: translateY(-1px);
 }
 
 .btn-secondaire {
@@ -175,7 +207,9 @@ h2 {
 }
 
 /* ---------- Accessibilité ---------- */
-.btn:focus-visible {
+.btn:focus-visible,
+.btn-principal:focus-visible,
+.btn-secondaire:focus-visible {
   outline: 3px solid #2563eb;
   outline-offset: 2px;
 }
@@ -183,7 +217,9 @@ h2 {
 @media (prefers-reduced-motion: reduce) {
   .champ input,
   .champ select,
-  .btn {
+  .btn,
+  .btn-principal,
+  .btn-secondaire {
     transition: none;
   }
 }
