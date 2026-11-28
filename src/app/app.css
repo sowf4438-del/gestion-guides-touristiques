@@ -155,7 +155,7 @@
   color: #64748b;
 }
 
-/* ---------- Statistiques ---------- */
+/* ---------- Statistiques (trait de couleur en haut) ---------- */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -169,7 +169,7 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
-  padding: 16px 20px 16px 26px;
+  padding: 22px 20px 16px;
   overflow: hidden;
   background: #fff;
   border: 1px solid #ece5d8;
@@ -180,8 +180,8 @@
 .stat-card::before {
   content: '';
   position: absolute;
-  inset: 0 auto 0 0;
-  width: 6px;
+  inset: 0 0 auto 0;
+  height: 6px;
   background: var(--accent);
 }
 
