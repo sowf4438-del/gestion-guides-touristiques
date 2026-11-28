@@ -26,21 +26,18 @@
   </aside>
 
   <div class="app-shell">
-    @if (stats$ | async; as stats) {
-      <header class="app-header">
-        <div class="titre-bloc">
-          <h1 class="titre-script">
-            Gestion des Guides Touristiques
-            <span class="pays">au Sénégal</span>
-          </h1>
-          <p class="sous-titre-page">Suivi des disponibilités, spécialités et régions</p>
-        </div>
-        <button type="button" (click)="reinitialiserDemo()" class="btn-reset-demo header-reset">
-          Réinitialiser démo
-        </button>
-      </header>
+    <header class="app-header">
+      <div class="titre-bloc">
+        <h1 class="titre-script">
+          Gestion des Guides Touristiques
+          <span class="pays">au Sénégal</span>
+        </h1>
+        <p class="sous-titre-page">Suivi des disponibilités, spécialités et régions</p>
+      </div>
+    </header>
 
-      <section id="section-stats" class="stats-grid" aria-label="Statistiques des guides">
+    <section id="section-stats" class="stats-grid" aria-label="Statistiques des guides">
+      @if (stats$ | async; as stats) {
         <div class="stat-card">
           <span class="stat-label">Total guides</span>
           <strong class="stat-value">{{ stats.total }}</strong>
@@ -57,20 +54,21 @@
           <span class="stat-label">Indisponibles</span>
           <strong class="stat-value">{{ stats.indisponibles }}</strong>
         </div>
-      </section>
-    }
+      }
+    </section>
 
     <main class="conteneur-principal">
       <section id="section-formulaire" aria-label="Formulaire d'ajout ou modification">
         <app-guide-form
           [guideEnEdition]="guideSelectionne"
-          (editionTerminee)="onEditionTerminee()"
+          (editionTerminee)="onEditionTerminee($event)"
         ></app-guide-form>
       </section>
 
       <section id="section-liste" aria-label="Liste des guides">
         <app-guide-list
           (modifierGuide)="selectionnerPourEdition($event)"
+          (guideSupprime)="onGuideSupprime($event)"
         ></app-guide-list>
       </section>
     </main>

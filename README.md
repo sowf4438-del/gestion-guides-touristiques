@@ -4,7 +4,7 @@ Application web front-end développée avec **Angular** pour consulter, recherch
 
 ## Capture d'écran
 
-![Aperçu de l'application](docs/capture-ecran.png)
+![Aperçu de l'application](capture-ecran.png)
 
 ## Fonctionnalités
 

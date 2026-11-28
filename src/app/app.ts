@@ -39,23 +39,31 @@ export class App {
 
   selectionnerPourEdition(guide: GuideTouristique): void {
     this.guideSelectionne = { ...guide };
-    if (typeof window !== 'undefined') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (typeof document !== 'undefined') {
+      document
+        .getElementById('section-formulaire')
+        ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
 
-  onEditionTerminee(): void {
-    const etaitModification = this.guideSelectionne !== null;
+  onEditionTerminee(enregistre: boolean): void {
     this.guideSelectionne = null;
-    this.afficherNotification(
-      etaitModification ? 'Guide mis à jour avec succès.' : 'Opération effectuée.'
-    );
+    if (enregistre) {
+      this.afficherNotification('Fiche mise à jour avec succès.');
+    }
+  }
+
+  onGuideSupprime(guide: GuideTouristique): void {
+    if (this.guideSelectionne?.id === guide.id) {
+      this.guideSelectionne = null;
+    }
+    this.afficherNotification(`Le guide ${guide.prenom} ${guide.nom} a été supprimé.`);
   }
 
   reinitialiserDemo(): void {
-    this.guideService.reinitialiserDonneesDemo();
+    const resultat = this.guideService.reinitialiserDonneesDemo();
     this.guideSelectionne = null;
-    this.afficherNotification('Données de démonstration réinitialisées.');
+    this.afficherNotification(resultat.message);
   }
 
   private afficherNotification(texte: string): void {
@@ -65,6 +73,6 @@ export class App {
     }
     this.timerNotification = setTimeout(() => {
       this.messageNotification = null;
-    }, 3000);
+    }, 3500);
   }
 }
